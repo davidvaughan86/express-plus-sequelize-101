@@ -45,6 +45,23 @@ app.get('/new', (req, res) => {
 </form>
     `);
 });
+app.get('/update', (req,res) => {
+  res.send (`
+  <form method="POST">
+  <label>
+    Name:
+    <input name="name" type="text" autofocus />
+  </label>
+  <label>
+    Breed:
+    <input name="breed" type="text" />
+  </label> 
+ <input type="submit" value="do it!" />
+</form>
+
+  `)
+
+})
 
 // When using Sequelize, you need async/await
 // Put async in front of (req, res)
@@ -86,6 +103,22 @@ app.get('/list', (req, res) => {
           </ul>
               `);
         })
+});
+
+app.post('/list/:id', async (req, res) => {
+  const { id } = req.params;
+  
+  const updatePet = await Pets.update(req.body,{
+    where: {
+      id
+    }
+    
+  });
+  res.redirect('/list');
+  
+
+
+
 });
 
 server.listen(PORT, HOST, () => {
